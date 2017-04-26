@@ -136,9 +136,9 @@ class ProductView extends React.Component {
 class ProductRelated extends React.Component {
     render() {
         return (
-            <div className="content productList mgTop60">
+            <div className="content mgTop60">
                 <h3>Related Product</h3>
-                <div className="colWrap mgTop30">
+                <div className="colWrap productList">
                     <div className="colMd4 col">
                         <a href="/products/19">
                             <div className="bgWhite relative">

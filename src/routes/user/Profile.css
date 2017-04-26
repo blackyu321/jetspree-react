@@ -43,7 +43,7 @@
 .imgWrapBox img { display: block; position: absolute; height: 100%; max-height: 240px; max-width: none; top: 0; left: 50%; -webkit-transform: translate(-50%, 0%); }
 .tripInfo p { line-height: normal; margin-bottom: 0px; }
 .tripInfo .travelCountry, .tripInfo .returnCountry { text-transform: uppercase; display: inline-block; text-align: center; width: 40%; vertical-align: top; }
-.tripInfo h5 { font-size: 25px; margin: 0; font-weight: 600; }
+.tripInfo h5 { font-size: 25px; margin: 0; font-weight: 600;     min-height: 60px;}
 .tripInfo i.iconMiddle { font-size: 34px; text-align: center; margin-top: 15px; display: inline-block; width: 20%; }
 .tripInfo h5 span { display: block; font-weight: 400; font-size: 10px; }
 .tripHead { padding: 20px; }

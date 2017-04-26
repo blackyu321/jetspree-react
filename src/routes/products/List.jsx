@@ -77,9 +77,14 @@ export class Products extends React.Component {
                                             src={this.state.imageHost + obj.image_path}
                                             alt="should be here"/>
                                     </div>
-                                    <div className="productInfo"><h4>{obj.name}</h4>
+                                    <div className="productInfo">
+
+                                        <div className="hoverImg">
+                                        <img src={this.state.imageHost + obj.image_path} alt="should be here"/>
+                                        </div>
+                                        <h4>{obj.name}</h4>
                                         <div className="mgBottom colorSec">{obj.price}</div>
-                                        <RaisedButton label="Buy" primary={true} className="pullRight abBottomRight"/>
+                                        <RaisedButton label="I want this" primary={true} className="pullRight abBottomRight"/>
                                     </div>
                                     <div className="requestBy">
 
