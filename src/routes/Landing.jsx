@@ -312,7 +312,7 @@ class Landing extends React.Component {
                                 <h3 className="pullLeft">Popular Items</h3>
                                 <div className="pullRight mgTop10"><span>View All</span></div>
                             </div>
-                            <div className="content colWrap productList popularList">
+                            <div className="content colWrap productList popularList productAnimate">
                                 <Products />
                             </div>
                         </div>

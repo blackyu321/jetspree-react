@@ -10,7 +10,7 @@ import DialogBox from "../../components/DialogBox";
 class ProductsLayout extends React.Component {
     render() {
         return (
-            <div className="itemsListWrap">
+            <div className="productsListWrap">
                 <div className="overflowFixBeta">
                     <div className="container">
                         <div className="table">
@@ -18,7 +18,7 @@ class ProductsLayout extends React.Component {
                                 Category here
                             </div>*/}
                             <div className="contentWrap tableCell full vatop">
-                                <div className="content colWrap productList">
+                                <div className="content colWrap productList productAnimate">
                                     <Products />
                                 </div>
                             </div>
