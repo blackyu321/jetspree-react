@@ -86,6 +86,7 @@ class App extends Component {
                                     <FlatButton label="Requests" containerElement={<Link to="/post-request"/>}/>
                                     <FlatButton label="Products" containerElement={<Link to="/products"/>}/>
                                     <FlatButton label="Trip" containerElement={<Link to="/trip"/>}/>
+                                    <FlatButton label="Traveller" containerElement={<Link to="/traveller"/>} />
                                     <LoginNavbar token={this.state.token}/>
                                     <GetUserInfo token={this.state.token} updateToken={this.updateToken}
                                                  showSnackBar={this.showSnackBar} history={history}/>

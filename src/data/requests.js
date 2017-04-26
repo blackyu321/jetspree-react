@@ -18,6 +18,15 @@ export function getRequests(param) {
         });
 }
 
+export function getRequest2(param) {
+	return Axios({
+		method: 'get',
+		url: 'https://serene-meadow-20972.herokuapp.com/items?' + QueryString.stringify(param)
+	})
+		.then((resp) => resp.data)
+		.catch((error) => console.log(error));
+}
+
 export function postRequests(param) {
     return Axios.post(process.env.REACT_APP_JETSPREE_API_URL + '/auth/requests', param,
         {headers: {'x-access-token': Utils.getCookie('token')}})
@@ -25,6 +34,16 @@ export function postRequests(param) {
         .catch(function (error) {
             console.log(error);
         });
+}
+
+export function PostRequest2(param) {
+    return Axios({
+        method: 'post',
+        url: 'https://serene-meadow-20972.herokuapp.com/items',
+        data: param
+    })
+        .then((resp) => resp.data)
+        .catch((error) => console.log(error));
 }
 
 export function loadItems(param) {

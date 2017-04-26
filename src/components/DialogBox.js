@@ -12,6 +12,15 @@ class DialogBox extends React.Component {
 			/>
 		]
 		
+		let displayMsg;
+		if(this.props.errorMessage) {
+			displayMsg = this.props.errorMessage.map((options, i) => {
+				return options.message;
+			});
+		} else if(this.props.message) {
+			displayMsg = this.props.message
+		}
+		
 		return (
 			<Dialog
 				title={this.props.title}
@@ -20,7 +29,7 @@ class DialogBox extends React.Component {
 				open={this.props.open}
 				onRequestClose={this.props.onRequestClose}
 			>
-				{this.props.errorMessage}
+				{displayMsg}
 			</Dialog>
 		)
 	}

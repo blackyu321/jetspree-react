@@ -116,11 +116,11 @@ class SearchBar extends React.Component {
         }).then((data) => {
             if (data.success) {
                 this.setState({
-                    suggestions: data.result.map((obj, i) => {
-                        return {name: obj.name, id: obj.id, pic: data.image_host + obj.image_path};
-                    }),
-                    isFetch: true
-                })
+					suggestions: data.result.map((obj, i) => {
+						return {name: obj.name, id: obj.id, pic: data.image_host + obj.image_path};
+					}),
+					isFetch: true
+				})
             }
         });
     };

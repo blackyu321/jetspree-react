@@ -1,17 +1,19 @@
 import React from "react";
 import {Form} from "formsy-react";
-import {postRequests} from "../data/requests";
+import {postRequests, PostRequest2} from "../data/requests";
+import {Redirect} from "react-router-dom";
 import "./SignUp.css";
 import DropZone from "react-dropzone";
-import Modal from "react-modal";
 import FormsyText from "formsy-material-ui/lib/FormsyText";
 import FlatButton from "material-ui/FlatButton";
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import DropDown from '../components/DropDown';
-import {loadCurrencies, loadCities, loadStates} from '../data/hardcoded-data';
+import DialogBox from '../components/DialogBox';
+import {loadCurrencies, loadCities} from '../data/hardcoded-data';
 import {Step, Stepper, StepLabel} from 'material-ui/Stepper';
+import Axios from 'axios';
 
 const styles = {
     textfield: {
@@ -58,7 +60,6 @@ class postRequest extends React.Component {
         super(props);
         this.state = {
             canSubmit: false,
-            modalIsOpen: false,
             imageFiles1: [],
             imageFiles2: [],
             imageFiles3: [],
@@ -67,25 +68,30 @@ class postRequest extends React.Component {
             finished: false,
             request: {},
             itemCount: 1,
-			stateList: []
+			stateList: [],
+            error: false,
+			messageError: [],
+            imageurl: '',
+			success: false,
+			redirect: false
         };
-
-        //ModalBox
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-
+        
         //Submit
         this.submit = this.submit.bind(this);
     }
 
-    openModal() {
-        this.setState({modalIsOpen: true});
-    }
-
-    closeModal() {
-        this.setState({modalIsOpen: false})
-    }
-
+    handleClose = () => {
+        this.setState({error: false})
+    };
+    
+    handleSuccessOpen = () => {
+        this.setState({success: true})
+    };
+    
+    handleSuccessClose = () => {
+        this.setState({success: false, redirect: true})
+    };
+    
     enableButton = () => {
         this.setState({
             canSubmit: true
@@ -108,6 +114,12 @@ class postRequest extends React.Component {
         }
     }
 	
+	errorMessage = () => {
+	    return {
+			numeric: 'only integer value!'
+        }
+    }
+	
 	// shouldComponentUpdate(nextProps, nextState) {
     //     let button = this.state.canSubmit !== nextState.canSubmit;
     //     return button;
@@ -118,11 +130,31 @@ class postRequest extends React.Component {
             prefill: {}
         })
     }
+    
+    postImage = (data) => {
+       Axios({
+           method: 'POST',
+           url: 'https://serene-meadow-20972.herokuapp.com/image',
+           data: {
+               image: data
+           }
+       }).then((res) => {
+           console.log(res.data);
+           this.setState({
+               imageurl: res.data.url
+           });
+       }).catch((err) => {
+           console.log(err);
+       })
+    }
+    
 
     onDrop = (acceptedFiles, rejectedFiles) => {
         var file = acceptedFiles[0];
+		
         const reader = new FileReader();
         reader.onload = (event) => {
+			this.postImage(event.target.result);
             this.setState({
                 imageFiles1: event.target.result
             })
@@ -194,15 +226,29 @@ class postRequest extends React.Component {
     storeFormData = (data) => {
 		//client side error checking
         if(this.state.stepindex == 0) {
+            
+            // var errormsg = [{'message' : 'errorMsg123'}];
+            //     if(data.price != '123') {
+            //     this.setState({
+            //         error: true,
+            //         messageError: errormsg
+            //     })
+            //     return;
+            // }
+            
+            data.imageurl = this.state.imageurl;
+            
             this.setState({
                 request: Object.assign(this.state.request, data)
             })
+            
 			console.log(this.state.request);
 		}
 		else if (this.state.stepindex == 1) {
             this.setState({
                 request: Object.assign(this.state.request, data)
             })
+            
 			console.log(this.state.request);
 		}
 		else if (this.state.stepindex == 2) {
@@ -210,8 +256,8 @@ class postRequest extends React.Component {
             this.setState({
                 request: Object.assign(this.state.request, data)
             })
+            
             this.submit(this.state.request);
-			console.log(this.state.request);
 		}
 		else {
 			alert('no page found');
@@ -247,6 +293,7 @@ class postRequest extends React.Component {
                                     name="price"
                                     hintText=""
                                     floatingLabelText="Price"
+                                    // validations={errorMessage.numeric}
                                     style={styles.textfield}
                                     errorStyle={styles.errorStyle}
                                     floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
@@ -441,24 +488,36 @@ class postRequest extends React.Component {
     }
     
     submit(data) {
-        postRequests(data)
+		PostRequest2(data)
             .then(response => {
-                this.openModal(); // or redirect to other page
+                 this.handleSuccessOpen() // or redirect to other page
             })
     }
 
     render() {
+	    
+	    if(this.state.redirect == true) {
+	        return <Redirect to="/"/>
+        }
+        
         return (
             <div className="accountForm stayCenter mgTop40" style={{'maxWidth': '700px'}}>
                 <h2>Post Request</h2>
-                <Modal
-                    isOpen={this.state.modalIsOpen}
-                    onRequestClose={this.closeModal}
-                    style={customStlye}
-                    contentLabel="Success!"
-                >
-                    <div> Success!</div>
-                </Modal>
+                
+                <DialogBox
+                    title="Message"
+                    open={this.state.error}
+                    onRequestClose={this.handleClose}
+                    errorMessage={this.state.messageError}
+                />
+                
+                <DialogBox
+                    title="Success"
+                    open={this.state.success}
+                    onRequestClose={this.handleSuccessClose}
+                    message="Post Request SUCCESS!"
+                />
+                
                 <Stepper activeStep={this.state.stepindex}>
                     <Step>
                         <StepLabel>Item Details</StepLabel>
